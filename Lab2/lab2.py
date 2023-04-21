@@ -19,7 +19,7 @@ try:
                 for i in ''.join(res[0]):
                     if i == '.' or i == ',':
                         koll += 1
-                    if koll == 1:
+                    if koll == 0:
                         print(number_to_words[str(i)], end=" ")
                     else:
                         print(i, end=" ")

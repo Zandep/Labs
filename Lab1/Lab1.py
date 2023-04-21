@@ -23,7 +23,7 @@ try:
         while buffer:
             if buffer == '.' or buffer == ',':
                 koll += 1
-            if koll == 1:
+            if koll == 0:
                 if buffer >= '0' and buffer <= '9':
                     number_flag = True
                     work_buffer += slovar[int(buffer)]

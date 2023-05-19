@@ -82,7 +82,7 @@ print_matrix(matD)
 print('Подматрица E')
 print_matrix(matE)
 
-zero, otr = 1, 0
+zero, otr = 0, 0
 for i in range(n // 4, hn):
     for j in range(hn - i - 1, i + 1):
         if j % 2 != 0 and matE[i][j] == 0:
@@ -105,7 +105,7 @@ if zero > otr:
     print('Получившаяся подматрица B:')
     print_matrix(matB)
 else:
-    print('Количество нулевых элементов в нечетных столбцах в области 4 меньше, чем количество отрицательных  элементов в четных строках в области 1')
+    print('Количество нулевых элементов в нечетных столбцах в области 4 меньше или равно, чем количество отрицательных  элементов в четных строках в области 1')
     matE, matB = matB, matE
 
 matF = deepcopy(matA)

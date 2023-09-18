@@ -22,21 +22,22 @@ print("Матрица A:\n", A)
 
 
 half_n = n // 2
-maxfix_n = half_n
-minfix_n = half_n
 if n % 2 != 0:
-    maxfix_n += 1
-    minfix_n = maxfix_n - 1
+    maxfix_n = half_n + 1
+    minfix_n = half_n
+else:
+    maxfix_n = half_n
+    minfix_n = maxfix_n
 
 
 F = A.copy()
-B = np.array(A[:minfix_n, :minfix_n])
+B = np.array(A[:minfix_n, :maxfix_n])
 print('Подматрица B матрицы A:\n', B)
-C = np.array(A[:minfix_n, maxfix_n:])
+C = np.array(A[:maxfix_n, maxfix_n:])
 print('Подматрица C матрицы A:\n', C)
-E = np.array(A[maxfix_n:, maxfix_n:])
+E = np.array(A[maxfix_n:, minfix_n:])
 print('Подматрица E матрицы A:\n', E)
-D = np.array(A[maxfix_n:, :minfix_n])
+D = np.array(A[minfix_n:, :minfix_n])
 print('Подматрица D матрицы A:\n', D)
 
 
@@ -49,8 +50,8 @@ if otr_E < null_E:
     F[maxfix_n:, maxfix_n:] = B[-1::-1, :minfix_n]
 else:
     print("Меняем несимметрично B и Е")
-    F[:minfix_n, maxfix_n:] = E
-    F[maxfix_n:, maxfix_n:] = B
+    F[:minfix_n, :maxfix_n] = E
+    F[maxfix_n:, minfix_n:] = B
 print(F)
 tA = np.transpose(A)
 tF = np.transpose(F)

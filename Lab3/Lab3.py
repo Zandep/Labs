@@ -1,13 +1,13 @@
-# С клавиатуры вводится два числа K и N. Квадратная матрица А(N,N), состоящая из 4-х равных по размерам подматриц, B,C,D,E
-# заполняется случайным образом целыми числами в интервале [-10,10]. Для тестирования использовать не случайное заполнение, а целенаправленное.
+"""
+С клавиатуры вводится два числа K и N. Квадратная матрица А(N,N), состоящая из 4-х равных по размерам подматриц, B,C,D,E
+заполняется случайным образом целыми числами в интервале [-10,10]. Для тестирования использовать не случайное заполнение, а целенаправленное.
+Формируется матрица F следующим образом: скопировать в нее А и если в Е количество нулевых элементов в нечетных столбцах в области 4 больше,
+чем количество отрицательных  элементов в четных строках в области 1,
+то поменять C и В симметрично области 4 и 3 местами, иначе В и Е поменять местами несимметрично.
+При этом матрица А не меняется. После чего вычисляется выражение:
+((F+A)– (K * F) )*AT . Выводятся по мере формирования А, F и все матричные операции последовательно."""
 
-# Формируется матрица F следующим образом: скопировать в нее А и если в Е количество нулевых элементов в нечетных столбцах в области 4 больше,
-# чем количество отрицательных  элементов в четных строках в области 1,
-# то поменять C и В симметрично области 4 и 3 местами, иначе В и Е поменять местами несимметрично.
-# При этом матрица А не меняется. После чего вычисляется выражение:
-# ((F+A)– (K * F) )*AT . Выводятся по мере формирования А, F и все матричные операции последовательно.
-
-import random
+import numpy as np
 from copy import deepcopy
 
 def print_matrix(mat):
@@ -32,7 +32,10 @@ def matzero(size):
 
 
 def matrix_input(mat, i1, i2, j1, j2):
-    zero_mat = matzero(len(mat)//2)
+    if len(mat) % 2 == 0:
+        zero_mat = matzero(len(mat)//2)
+    else:
+        zero_mat = matzero((len(mat) // 2) + 1)
     for i in range(i1, i2):
         for j in range(j1, j2):
             zero_mat[i - i1][j - j1] = mat[i][j]
@@ -56,21 +59,22 @@ if ans not in ['1', '2']:
 if ans == '1':
     matA = [[(1) for i in range(n)] for j in range(n)]
 elif ans == '2':
-    matA = [[random.randint(-10, 10) for i in range(n)] for j in range(n)]
+    matA = np.random.randint(-10.0, 11.0, (n, n))
 
 
 print('Матрица А изначальная:')
 print_matrix(matA)
 
 hn = n//2
-fn = hn
 if n % 2 != 0:
-    fn += 1
+    fn = hn + 1
+else:
+    fn = hn
 
-matC = matrix_input(matA, 0, hn, fn, n)
-matE = matrix_input(matA, fn, n, fn, n)
-matD = matrix_input(matA, fn, n, 0, hn)
-matB = matrix_input(matA, 0, hn, 0, hn)
+matB = np.array(matA[:hn, :fn])
+matC = np.array(matA[:fn, fn:])
+matE = np.array(matA[fn:, hn:])
+matD = np.array(matA[hn:, :hn])
 
 print('Подматрицы матрицы A:')
 print('Подматрица B')
@@ -111,8 +115,8 @@ else:
 matF = deepcopy(matA)
 pastemat(matF, matB, 0, 0)
 pastemat(matF, matC, fn, 0)
-pastemat(matF, matE, fn, fn)
-pastemat(matF, matD, 0, fn)
+pastemat(matF, matE, hn, fn)
+pastemat(matF, matD, 0, hn)
 
 print('Матрица F:')
 print_matrix(matF)

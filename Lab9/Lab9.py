@@ -33,9 +33,10 @@ class Window:
         Button(self.root, text="Выйти", width=10, command=self.exit).grid(row=3, column=0, pady=10, sticky=E)
 
     def exit(self):
-        choice = mb.askyesno("Вы хотите прекратить работу программы?")
+        choice = mb.askyesno("Выход","Вы хотите прекратить работу программы?")
         if choice:
             self.root.destroy()
+
 
     def save_data(self):
         login = self.Login.get()
@@ -72,9 +73,10 @@ class Window:
                 users_data = []
             if not user_is_exists:
                 users_data.append({'login': login, "password": password})
-                # print('пользователь', login_name, 'зарегестрирован')
+                print('пользователь', login, 'зарегестрирован')
                 mb.showinfo('Запись создана', 'Вы успешно зарегестрированы!')
                 json.dump(users_data, f)
+                self.root.destroy()
 
     def vhod(self):
         login = self.Login.get()
@@ -92,7 +94,7 @@ class Window:
                     if user['login'] == login and user['password'] == password:
                         user_is_exists = True
                         mb.showinfo('Вход прошел успешно', 'Вход совершен')
-                        exit(login, password)
+                        self.root.destroy()
 
             if not user_is_exists:
                 if users_data is None:

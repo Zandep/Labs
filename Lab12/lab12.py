@@ -7,15 +7,17 @@ from decimal import Decimal, getcontext
 
 def custom_sum(x, t):
     n = 1
-    z = 1
+    k = 1
+    znak = 1
     curr_sum = 0
     curr_term = 0
     while abs(curr_term) < t:
-        z *= 3*n * (3*n - 1) * (3*n - 2)
-        curr_x = np.linalg.det(x * 3 * n)
-        curr_term = Decimal(curr_x) / z
-        curr_sum += curr_term * (-1) ** (n - 1)
+        k *= 3*n * (3*n - 1) * (3*n - 2)
+        curr_x = np.linalg.det(abs(x * 3 * n))
+        curr_term = Decimal(curr_x) / k
+        curr_sum += curr_term * znak
         n += 1
+        znak = -znak
     return curr_sum
 
 try:
@@ -23,7 +25,7 @@ try:
     while t > 100 or t < 1:  # ошибка в случае введения слишком малой точности
         t = int(input("Вы ввели число, неподходящее по условию, введите число t, большее 1: \n"))
     print()
-    k = random.randint(1, 10)
+    k = random.randint(2, 10)
     x = np.random.randint(0, 10, (k, k))
     print("Сгенерированная матрица:")
     print(x)

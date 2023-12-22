@@ -13,7 +13,7 @@ def custom_sum(x, t):
     curr_term = 0
     while abs(curr_term) < t:
         k *= 3*n * (3*n - 1) * (3*n - 2)
-        curr_x = np.linalg.det(abs(x * 3 * n))
+        curr_x = np.linalg.det(x * 3 * n)
         curr_term = Decimal(curr_x) / k
         curr_sum += curr_term * znak
         n += 1
